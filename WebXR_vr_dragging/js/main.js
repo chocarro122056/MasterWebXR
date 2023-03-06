@@ -1,8 +1,13 @@
 import * as THREE from 'three';
 
+
 import { VRButton } from 'three/addons/webxr/VRButton.js';
 
 import { XRControllerModelFactory } from 'three/addons/webxr/XRControllerModelFactory.js';
+
+
+let skinnedMesh, skeleton, bones, skeletonHelper, box1, box2, box3, box4;
+const pointer = new THREE.Vector2();
 
 let container;
 let camera, scene, renderer;
