@@ -66,8 +66,12 @@ function init() {
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
-    document.body.appendChild( renderer.domElement );
-
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.shadowMap.enabled = true;
+    renderer.xr.enabled = true;
+    //document.body.appendChild( renderer.domElement );
+	
+    document.body.appendChild( VRButton.createButton( renderer ) );
     window.addEventListener( 'resize', onWindowResize );
     window.addEventListener( 'pointerdown', onPointerDown );
     window.addEventListener( 'pointerup', onPointerUp );
@@ -369,6 +373,12 @@ function animate() {
     box3.position.set(skeleton.bones[0].position.x,skeleton.bones[0].position.y+16,skeleton.bones[0].position.z);
     box4.position.set(skeleton.bones[0].position.x,skeleton.bones[0].position.y+25,skeleton.bones[0].position.z);
 	*/
+    renderer.setAnimationLoop( render );
+
+}
+
+function render() {
+
     renderer.render( scene, camera );
 
 }
