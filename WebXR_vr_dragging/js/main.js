@@ -5,12 +5,10 @@ import { VRButton } from 'three/addons/webxr/VRButton.js';
 import { XRControllerModelFactory } from 'three/addons/webxr/XRControllerModelFactory.js';
 
 let camera, scene, renderer;
-
+let container;
 let skinnedMesh, skeleton, bones, skeletonHelper, box1, box2, box3, box4;
 let raycaster;
 const pointer = new THREE.Vector2();
-
-let aMovingObject;
 let groupDraggables;
 let intersectPoint;
                         
@@ -19,7 +17,10 @@ animate();
 
 function init() {
 
-    scene = new THREE.Scene();
+  container = document.createElement( 'div' );
+  document.body.appendChild( container );
+
+  scene = new THREE.Scene();
 
     let dirLight = new THREE.DirectionalLight ( 0xffffff, 1 );
     scene.add( dirLight );
@@ -27,8 +28,20 @@ function init() {
     let hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 1 );
     scene.add( hemiLight );
     
-    camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000 );
-    camera.position.z = 30;
+    camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 10 );
+    camera.position.set( 0, 1.6, 3 );
+
+    const floorGeometry = new THREE.PlaneGeometry( 4, 4 );
+    const floorMaterial = new THREE.MeshStandardMaterial( {
+            color: 0xeeeeee,
+            roughness: 1.0,
+            metalness: 0.0
+    } );
+    const floor = new THREE.Mesh( floorGeometry, floorMaterial );
+    floor.rotation.x = - Math.PI / 2;
+    floor.receiveShadow = true;
+    scene.add( floor );
+    scene.add( new THREE.HemisphereLight( 0x808080, 0x606060 ) );
     
     raycaster = new THREE.Raycaster();
     const geometry = new THREE.BoxGeometry( 13, 4, 5 );
