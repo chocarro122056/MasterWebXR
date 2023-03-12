@@ -13,6 +13,7 @@ let groupDraggables;
 let intersectPoint;
 let controllerGrip1, controllerGrip2;
 let controller1, controller2;
+const tempMatrix = new THREE.Matrix4();
                         
 init();
 animate();
@@ -115,19 +116,19 @@ function onSelectStart( event ) {
 
   const controller = event.target;
 
-  // const intersections = getIntersections( controller );
+  const intersections = getIntersections( controller );
 
-  // if ( intersections.length > 0 ) {
+  if ( intersections.length > 0 ) {
 
-  //         const intersection = intersections[ 0 ];
+    const intersection = intersections[ 0 ];
 
-  //         const object = intersection.object;
-  //         object.material.emissive.b = 1;
-  //         controller.attach( object );
+    const object = intersection.object;
+    object.material.emissive.b = 1;
+    controller.attach( object );
 
-  //         controller.userData.selected = object;
+    controller.userData.selected = object;
 
-  // }
+  }
 
 }
 
@@ -135,15 +136,15 @@ function onSelectEnd( event ) {
 
   const controller = event.target;
 
-  // if ( controller.userData.selected !== undefined ) {
+  if ( controller.userData.selected !== undefined ) {
 
-  //         const object = controller.userData.selected;
-  //         object.material.emissive.b = 0;
-  //         group.attach( object );
+    const object = controller.userData.selected;
+    object.material.emissive.b = 0;
+    group.attach( object );
 
-  //         controller.userData.selected = undefined;
+    controller.userData.selected = undefined;
 
-  // }
+  }
 
 
 }
@@ -151,12 +152,37 @@ function onSelectEnd( event ) {
 //Para que aparezca el rayo
 function getIntersections( controller ) {
 
-  // tempMatrix.identity().extractRotation( controller.matrixWorld );
+  tempMatrix.identity().extractRotation( controller.matrixWorld );
 
-  // raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
-  // raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( tempMatrix );
+  raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
+  raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( tempMatrix );
 
-  // return raycaster.intersectObjects( group.children, false );
+  return raycaster.intersectObjects( group.children, false );
+
+}
+
+function intersectObjects( controller ) {
+
+  // Do not highlight when already selected
+
+  if ( controller.userData.selected !== undefined ) return;
+
+  const line = controller.getObjectByName( 'line' );
+  const intersections = getIntersections( controller );
+
+  if ( intersections.length > 0 ) {
+
+    const intersection = intersections[ 0 ];
+
+    const object = intersection.object;
+    object.material.emissive.r = 1;
+    intersected.push( object );
+    line.scale.z = intersection.distance;
+
+  } else {
+
+    line.scale.z = 5;
+  }
 
 }
 
@@ -420,36 +446,29 @@ function onPointerUp( event ) {
    
 }
 
+function cleanIntersected() {
+
+  while ( intersected.length ) {
+    const object = intersected.pop();
+    object.material.emissive.r = 0;
+  }
+
+}
+
 function animate() {
 
-    requestAnimationFrame( animate );
-
-    
-    // skeleton.bones[ 0 ].rotation.y = box1.position.x;
-    // skeleton.bones[ 1 ].rotation.y = box2.position.x;
-    // skeleton.bones[ 2 ].rotation.y = box3.position.x;
-    // skeleton.bones[ 3 ].rotation.y = box4.position.x;
-    // skeleton.bones[ 0 ].position.y = box1.position.y;
-    // skeleton.bones[ 0 ].position.y = box1.position.z;
-    //skeleton.bones[ 0 ].rotation.z = box1.position.x;
-    // skeleton.bones[ 1 ].rotation.y += 0.02;
-    // skeleton.bones[ 2 ].position.x += 0.04;
-    // skeleton.bones[ 3 ].position.z += 0.04;
-    // skeleton.bones[ 4 ].rotation.z += 0.04;
-    
-    /*
-    box1.position.set(skeleton.bones[0].position.x,skeleton.bones[0].position.y,skeleton.bones[0].position.z);
-    box2.position.set(skeleton.bones[1].position.x,skeleton.bones[1].position.y,skeleton.bones[1].position.z);   
-    box2.position.set(skeleton.bones[0].position.x,skeleton.bones[0].position.y+8,skeleton.bones[0].position.z);
-    box3.position.set(skeleton.bones[0].position.x,skeleton.bones[0].position.y+16,skeleton.bones[0].position.z);
-    box4.position.set(skeleton.bones[0].position.x,skeleton.bones[0].position.y+25,skeleton.bones[0].position.z);
-	*/
-    renderer.setAnimationLoop( render );
+  renderer.setAnimationLoop( render );
 
 }
 
 function render() {
 
-    renderer.render( scene, camera );
+  cleanIntersected();
+
+  // Dibujar el rayo de los mandos
+  intersectObjects( controller1 );
+  intersectObjects( controller2 );
+
+  renderer.render( scene, camera );
 
 }
