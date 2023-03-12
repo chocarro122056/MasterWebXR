@@ -88,6 +88,8 @@ function init() {
     groupDraggables.add( box4);
     scene.add( groupDraggables );
 
+  
+
     //Visualizar el mando
     const controllerModelFactory = new XRControllerModelFactory();
 
@@ -109,6 +111,14 @@ function init() {
     controller2.addEventListener( 'selectstart', onSelectStart );
     controller2.addEventListener( 'selectend', onSelectEnd );
     scene.add( controller2 );
+
+    const line = new THREE.Line( geometry );
+    line.name = 'line';
+    line.scale.z = 5;
+
+    controller1.add( line.clone() );
+    controller2.add( line.clone() );
+
 
     //skeleton.bones[0].position.z = -50;
 }
