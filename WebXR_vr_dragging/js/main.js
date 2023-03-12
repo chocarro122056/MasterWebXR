@@ -12,7 +12,7 @@ const pointer = new THREE.Vector2();
 let groupDraggables;
 let intersectPoint;
 let controllerGrip1, controllerGrip2;
-let controller1;
+let controller1, controller2;
                         
 init();
 animate();
@@ -96,6 +96,17 @@ function init() {
     controllerGrip2 = renderer.xr.getControllerGrip( 1 );
     controllerGrip2.add( controllerModelFactory.createControllerModel( controllerGrip2 ) );
     scene.add( controllerGrip2 );
+
+    //Boton del mando de seleccionar 
+    controller1 = renderer.xr.getController( 0 );
+    controller1.addEventListener( 'selectstart', onSelectStart );
+    controller1.addEventListener( 'selectend', onSelectEnd );
+    scene.add( controller1 );
+
+    controller2 = renderer.xr.getController( 1 );
+    controller2.addEventListener( 'selectstart', onSelectStart );
+    controller2.addEventListener( 'selectend', onSelectEnd );
+    scene.add( controller2 );
 
 
 }
