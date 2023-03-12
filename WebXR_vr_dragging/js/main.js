@@ -14,6 +14,7 @@ let intersectPoint;
 let controllerGrip1, controllerGrip2;
 let controller1, controller2;
 const tempMatrix = new THREE.Matrix4();
+const intersected = [];
                         
 init();
 animate();
@@ -109,7 +110,7 @@ function init() {
     controller2.addEventListener( 'selectend', onSelectEnd );
     scene.add( controller2 );
 
-    skeleton.bones[0].position.z = -50;
+    //skeleton.bones[0].position.z = -50;
 }
 
 function onSelectStart( event ) {
