@@ -192,7 +192,7 @@ function intersectObjects( controller ) {
 
   } else {
 
-    line.scale.z = 5;
+    //line.scale.z = 5;
   }
 
 }
