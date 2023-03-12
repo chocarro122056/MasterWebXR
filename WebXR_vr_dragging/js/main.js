@@ -11,6 +11,8 @@ let raycaster;
 const pointer = new THREE.Vector2();
 let groupDraggables;
 let intersectPoint;
+let controllerGrip1;
+let controller1;
                         
 init();
 animate();
@@ -98,6 +100,11 @@ function init() {
     groupDraggables.add( box3);
     groupDraggables.add( box4);
     scene.add( groupDraggables );
+
+    //Visualizar el mando
+    controllerGrip1 = renderer.xr.getControllerGrip( 0 );
+    controllerGrip1.add( controllerModelFactory.createControllerModel( controllerGrip1 ) );
+    scene.add( controllerGrip1 );
 
 }
 
