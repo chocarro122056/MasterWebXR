@@ -108,7 +108,9 @@ function init() {
     controller2.addEventListener( 'selectend', onSelectEnd );
     scene.add( controller2 );
 
-
+    skeleton.Bone.position.x = 0;
+    skeleton.Bone.position.y = 0;
+    skeleton.Bone.position.z = 0;
 }
 
 function onSelectStart( event ) {
@@ -148,6 +150,17 @@ function onSelectEnd( event ) {
 
 }
 
+//Para que aparezca el rayo
+function getIntersections( controller ) {
+
+  // tempMatrix.identity().extractRotation( controller.matrixWorld );
+
+  // raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
+  // raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( tempMatrix );
+
+  // return raycaster.intersectObjects( group.children, false );
+
+}
 
 
 function initSkinnedMesh() {
@@ -192,8 +205,7 @@ function initSkinnedMesh() {
     skeletonHelper = new THREE.SkeletonHelper( skinnedMesh );
     skeletonHelper.material.linewidth = 5;
     scene.add( skeletonHelper );
-    
-    
+      
     
     box1.position.set(skeleton.bones[0].position.x,skeleton.bones[0].position.y,skeleton.bones[0].position.z);
     box2.position.set(skeleton.bones[1].position.x,skeleton.bones[1].position.y,skeleton.bones[1].position.z);
