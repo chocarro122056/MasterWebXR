@@ -112,7 +112,8 @@ function init() {
     controller2.addEventListener( 'selectend', onSelectEnd );
     scene.add( controller2 );
 
-    const line = new THREE.Line( geometry );
+    const geo = new THREE.BufferGeometry().setFromPoints( [ new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, - 1 ) ] );
+    const line = new THREE.Line( geo );
     line.name = 'line';
     line.scale.z = 5;
 
@@ -188,11 +189,11 @@ function intersectObjects( controller ) {
     const object = intersection.object;
     object.material.emissive.r = 1;
     intersected.push( object );
-    //line.scale.z = intersection.distance;
+    line.scale.z = intersection.distance;
 
   } else {
 
-    //line.scale.z = 5;
+    line.scale.z = 5;
   }
 
 }
