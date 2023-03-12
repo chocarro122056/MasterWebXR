@@ -141,7 +141,7 @@ function onSelectEnd( event ) {
 
     const object = controller.userData.selected;
     object.material.emissive.b = 0;
-    group.attach( object );
+    groupDraggables.attach( object );
 
     controller.userData.selected = undefined;
 
@@ -158,7 +158,7 @@ function getIntersections( controller ) {
   raycaster.ray.origin.setFromMatrixPosition( controller.matrixWorld );
   raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( tempMatrix );
 
-  return raycaster.intersectObjects( skeleton.children, false );
+  return raycaster.intersectObjects( groupDraggables.children, false );
 
 }
 
