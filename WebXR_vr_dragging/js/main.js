@@ -11,7 +11,7 @@ let raycaster;
 const pointer = new THREE.Vector2();
 let groupDraggables;
 let intersectPoint;
-let controllerGrip1;
+let controllerGrip1, controllerGrip2;
 let controller1;
                         
 init();
@@ -33,28 +33,15 @@ function init() {
     camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 10 );
     camera.position.set( 0, 1.6, 3 );
 
-    const floorGeometry = new THREE.PlaneGeometry( 4, 4 );
-    const floorMaterial = new THREE.MeshStandardMaterial( {
-            color: 0xeeeeee,
-            roughness: 1.0,
-            metalness: 0.0
-    } );
-    const floor = new THREE.Mesh( floorGeometry, floorMaterial );
-    floor.rotation.x = - Math.PI / 2;
-    floor.receiveShadow = true;
-    scene.add( floor );
-    scene.add( new THREE.HemisphereLight( 0x808080, 0x606060 ) );
     
     raycaster = new THREE.Raycaster();
-    const geometry = new THREE.BoxGeometry( 13, 4, 5 );
+    const geometry = new THREE.BoxGeometry( 5, 1.54, 1.92 );
     
 		const material1 = new THREE.MeshStandardMaterial( { color: 0x1bcc1b } );
 		const material2= new THREE.MeshStandardMaterial( { color: 0x1bcc1b } );
     const material3 = new THREE.MeshStandardMaterial( { color: 0x1bcc1b } );
 		const material4 = new THREE.MeshStandardMaterial( { color: 0x1bcc1b } );
     
-    
-   
     
     box1 = new THREE.Mesh( geometry, material1 );
     box1.currentIntersected = false;
@@ -74,8 +61,6 @@ function init() {
     box4 = new THREE.Mesh( geometry, material4 );
     box4.currentIntersected = false;
     box4.isIntersectable = true;
-   
-    
    
     
     renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -102,9 +87,14 @@ function init() {
     scene.add( groupDraggables );
 
     //Visualizar el mando
-    // controllerGrip1 = renderer.xr.getControllerGrip( 0 );
-    // controllerGrip1.add( controllerModelFactory.createControllerModel( controllerGrip1 ) );
-    // scene.add( controllerGrip1 );
+    controllerGrip1 = renderer.xr.getControllerGrip( 0 );
+    controllerGrip1.add( controllerModelFactory.createControllerModel( controllerGrip1 ) );
+    scene.add( controllerGrip1 );
+
+    controllerGrip2 = renderer.xr.getControllerGrip( 1 );
+    controllerGrip2.add( controllerModelFactory.createControllerModel( controllerGrip2 ) );
+    scene.add( controllerGrip2 );
+
 
 }
 
