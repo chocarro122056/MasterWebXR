@@ -87,6 +87,8 @@ function init() {
     scene.add( groupDraggables );
 
     //Visualizar el mando
+    const controllerModelFactory = new XRControllerModelFactory();
+
     controllerGrip1 = renderer.xr.getControllerGrip( 0 );
     controllerGrip1.add( controllerModelFactory.createControllerModel( controllerGrip1 ) );
     scene.add( controllerGrip1 );
