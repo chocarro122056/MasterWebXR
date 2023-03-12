@@ -108,9 +108,7 @@ function init() {
     controller2.addEventListener( 'selectend', onSelectEnd );
     scene.add( controller2 );
 
-    skeleton.bones[0].position.x = 0;
-    skeleton.bones[0].position.y = 0;
-    skeleton.bones[0].position.z = 0;
+    skeleton.bones[0].position.z = -50;
 }
 
 function onSelectStart( event ) {
