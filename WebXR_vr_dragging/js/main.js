@@ -188,7 +188,7 @@ function intersectObjects( controller ) {
     const object = intersection.object;
     object.material.emissive.r = 1;
     intersected.push( object );
-    line.scale.z = intersection.distance;
+    //line.scale.z = intersection.distance;
 
   } else {
 
